@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Values.ingress.name }}
+spec:
+  rules:
+  - host: {{ .Values.ingress.host }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: "go-app-application-service"
+          servicePort: {{ .Values.service.servicePort}}
+  tls:
+  - hosts:
+    - {{ .Values.ingress.tls.hosts }}
+    secretName: {{ .Values.ingress.tls.secret_name }}
