@@ -49,7 +49,7 @@ Determine which [region](https://cloud.ibm.com/docs/Monitoring-with-Sysdig?topic
 
 - [Install jq](https://stedolan.github.io/jq/).
 
-- [Setup the Terraform CLI and the IBM Cloud Provider plug-in](https://cloud.ibm.com/docs/terraform?topic=terraform-tf-provider#install_cli)
+- [Setup the Terraform CLI and the latest IBM Cloud Provider plug-in](https://cloud.ibm.com/docs/terraform?topic=terraform-tf-provider#install_cli)
 
 - [Install Docker Desktop](https://www.docker.com/products/docker-desktop).
 
@@ -143,6 +143,12 @@ Build and push the Docker image to the IBM Cloud container registry.
 
     team_node_members = ["<email_address_of_an_invited_user_to_your_ibm_cloud_account>"]
     ```
+
+> Note: By default the template expects the Kubernetes cluster to have been created in a VPC Infrastructure, if you are creating the cluster in the Classic infrastructure set the following environment variable: 
+    ```
+    export TF_VAR_cluster_infrastructure=classic
+    ```
+    
 6. Execute terraform plan by specifying the location of variable files, state and plan file:
     ```sh
     terraform plan -var-file=config/config.tfvars -state=config/config.tfstate -out=config/config.plan

@@ -9,17 +9,25 @@ terraform {
 }
 
 provider "ibm" {
-  version          = ">= 1.2.3"
+  version          = ">= 1.2.4"
   ibmcloud_api_key = var.ibmcloud_api_key
   region           = var.region
   ibmcloud_timeout = 300
+  generation       = var.generation
 }
 
 data "ibm_resource_group" "group" {
   name = var.resource_group
 }
 
+data "ibm_container_vpc_cluster" "cluster" {
+  count = "${var.cluster_infrastructure == "vpc" ? 1 : 0}"
+  cluster_name_id   = var.cluster_id
+  resource_group_id = data.ibm_resource_group.group.id
+}
+
 data "ibm_container_cluster" "cluster" {
+  count = "${var.cluster_infrastructure == "classic" ? 1 : 0}"
   cluster_name_id   = var.cluster_id
   resource_group_id = data.ibm_resource_group.group.id
 }

@@ -21,17 +21,17 @@ resource "helm_release" "go_app" {
 
   set {
     name  = "ingress.host"
-    value = "metrics-${var.go_app_name}.${data.ibm_container_cluster.cluster.ingress_hostname}"
+    value = "metrics-${var.go_app_name}.${var.cluster_infrastructure == "vpc" ? data.ibm_container_vpc_cluster.cluster[0].ingress_hostname : data.ibm_container_cluster.cluster[0].ingress_hostname}"
   }
 
   set {
     name  = "ingress.tls.hosts"
-    value = "metrics-${var.go_app_name}.${data.ibm_container_cluster.cluster.ingress_hostname}"
+    value = "metrics-${var.go_app_name}.${var.cluster_infrastructure == "vpc" ? data.ibm_container_vpc_cluster.cluster[0].ingress_hostname : data.ibm_container_cluster.cluster[0].ingress_hostname}"
   }
 
   set {
     name  = "ingress.tls.secret_name"
-    value = data.ibm_container_cluster.cluster.ingress_secret
+    value = "${var.cluster_infrastructure == "vpc" ? data.ibm_container_vpc_cluster.cluster[0].ingress_secret : data.ibm_container_cluster.cluster[0].ingress_secret}"
   }
 }
 
@@ -58,16 +58,16 @@ resource "helm_release" "node_app" {
 
   set {
     name  = "ingress.host"
-    value = "metrics-${var.node_app_name}.${data.ibm_container_cluster.cluster.ingress_hostname}"
+    value = "metrics-${var.node_app_name}.${var.cluster_infrastructure == "vpc" ? data.ibm_container_vpc_cluster.cluster[0].ingress_hostname : data.ibm_container_cluster.cluster[0].ingress_hostname}"
   }
 
   set {
     name  = "ingress.tls.hosts"
-    value = "metrics-${var.node_app_name}.${data.ibm_container_cluster.cluster.ingress_hostname}"
+    value = "metrics-${var.node_app_name}.${var.cluster_infrastructure == "vpc" ? data.ibm_container_vpc_cluster.cluster[0].ingress_hostname : data.ibm_container_cluster.cluster[0].ingress_hostname}"
   }
 
   set {
     name  = "ingress.tls.secret_name"
-    value = data.ibm_container_cluster.cluster.ingress_secret
+    value = "${var.cluster_infrastructure == "vpc" ? data.ibm_container_vpc_cluster.cluster[0].ingress_secret : data.ibm_container_cluster.cluster[0].ingress_secret}"
   }
 }

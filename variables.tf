@@ -11,6 +11,15 @@ variable "resources_prefix" {
   description = "Prefix is added to all resources that are created by this template."
 }
 
+variable "cluster_infrastructure" {
+  default = "vpc"
+}
+
+variable "generation" {
+  description = "The VPC generation, currently supports Gen 1. Gen 2 tested in Beta."
+  default     = 1
+}
+
 variable "resource_group" {
   description = "The resource group for all the resources created."
   default     = "default"

@@ -14,7 +14,7 @@ resource "helm_release" "sysdig" {
   }
   set {
     name  = "sysdig.settings.tags"
-    value = "${var.sysdig_tags}:${data.ibm_container_cluster.cluster.cluster_name_id}"
+    value = "${var.sysdig_tags}:${var.cluster_infrastructure == "vpc" ? data.ibm_container_vpc_cluster.cluster[0].cluster_name_id : data.ibm_container_cluster.cluster[0].cluster_name_id}"
   }
   set {
     name  = "image.tag"
@@ -30,7 +30,7 @@ resource "helm_release" "sysdig" {
   }
   set {
     name = "sysdig.settings.k8s_cluster_name"
-    value = "${data.ibm_container_cluster.cluster.resource_name}/{${data.ibm_container_cluster.cluster.cluster_name_id}}" #"k8s-standard-02/bphqej9d0spngroitd40"
+    value = "${var.cluster_infrastructure == "vpc" ? data.ibm_container_vpc_cluster.cluster[0].resource_name : data.ibm_container_cluster.cluster[0].resource_name}/{${var.cluster_infrastructure == "vpc" ? data.ibm_container_vpc_cluster.cluster[0].cluster_name_id : data.ibm_container_cluster.cluster[0].cluster_name_id}}" #"k8s-standard-02/bphqej9d0spngroitd40"
   }  
   set {
     name = "sysdig.settings.ssl"
