@@ -31,7 +31,7 @@ resource "helm_release" "go_app" {
 
   set {
     name  = "ingress.tls.secret_name"
-    value = "${var.cluster_infrastructure == "vpc" ? data.ibm_container_vpc_cluster.cluster[0].ingress_secret : data.ibm_container_cluster.cluster[0].ingress_secret}"
+    value = var.cluster_infrastructure == "vpc" ? data.ibm_container_vpc_cluster.cluster[0].ingress_secret : data.ibm_container_cluster.cluster[0].ingress_secret
   }
 }
 
@@ -68,6 +68,6 @@ resource "helm_release" "node_app" {
 
   set {
     name  = "ingress.tls.secret_name"
-    value = "${var.cluster_infrastructure == "vpc" ? data.ibm_container_vpc_cluster.cluster[0].ingress_secret : data.ibm_container_cluster.cluster[0].ingress_secret}"
+    value = var.cluster_infrastructure == "vpc" ? data.ibm_container_vpc_cluster.cluster[0].ingress_secret : data.ibm_container_cluster.cluster[0].ingress_secret
   }
 }
