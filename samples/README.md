@@ -1,0 +1,1 @@
+These two samples are based on example code posted here: https://github.com/tembleking/custom-metrics with small changes as needed for this repository.  
