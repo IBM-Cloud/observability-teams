@@ -145,10 +145,11 @@ Build and push the Docker image to the IBM Cloud container registry.
     ```
 
 > Note: By default the template expects the Kubernetes cluster to have been created in a VPC Infrastructure, if you are creating the cluster in the Classic infrastructure set the following environment variable: 
+
     ```
     export TF_VAR_cluster_infrastructure=classic
     ```
-    
+
 6. Execute terraform plan by specifying the location of variable files, state and plan file:
     ```sh
     terraform plan -var-file=config/config.tfvars -state=config/config.tfstate -out=config/config.plan
