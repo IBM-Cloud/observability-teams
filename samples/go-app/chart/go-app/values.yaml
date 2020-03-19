@@ -2,7 +2,7 @@
 # Declare variables to be passed into your templates.
 revisionHistoryLimit: 1
 image:
-  tag: v1.0.0
+  tag: latest
   pullPolicy: Always
   resources:
     requests:
