@@ -57,6 +57,9 @@ setInterval(() => {
 
 }, 1000);
 
+server.get("/health", function(req, res, next) {
+  res.json({ status: "UP" });
+});
 
 server.get('/metrics', (req, res) => {
     res.set('Content-Type', register.contentType);
