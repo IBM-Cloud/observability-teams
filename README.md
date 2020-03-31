@@ -7,7 +7,17 @@ Use this template to:
  - configure Sysdig Teams with IAM integration,
  - and monitor the deployed environment with secure access and limited visibility to the data that matters to you as the developer.
 
-This repository features two sample applications that generate metrics that are pushed to an IBM Cloud Monitoring with Sysdig instance. The first application is written in [Node.js&reg;](https://nodejs.org/) and deployed to the [IBM Cloud&trade;](https://cloud.ibm.com/) Kubernetes service. The second application is written in [Go](https://golang.org/) and deployed to the [IBM Cloud&trade;](https://cloud.ibm.com/) Kubernetes service.
+## What's in this repo
+
+This repo has the following folder structure:
+
+* [modules](/modules): This folder contains multiple stand alone modules that are relevant to the main template.
+
+    * [vpc](/modules/vpc): Create a VPC in IBM Cloud if you do not already have one and intend to deploy in VPC.
+
+    * [k8s_cluster](/modules/k8s_cluster): Create a Kubernetes cluster in IBM Cloud, either in the Classic Infrastructure or VPC Infrastructure.
+
+    * [samples](/samples): This repository features two sample applications that generate metrics that are pushed to an IBM Cloud Monitoring with Sysdig instance. The first application is written in [Node.js&reg;](https://nodejs.org/) and deployed to the [IBM Cloud&trade;](https://cloud.ibm.com/) Kubernetes service. The second application is written in [Go](https://golang.org/) and deployed to the [IBM Cloud&trade;](https://cloud.ibm.com/) Kubernetes service.
 
   <p align="center">
     <img src="docs/images/Architecture.png">
@@ -220,6 +230,7 @@ Importing the cluster role and cluster role binding:
 Tutorial: [Analyze logs and monitor application health with LogDNA and Sysdig](https://cloud.ibm.com/docs/tutorials?topic=solution-tutorials-application-log-analysis).
 
 Tutorial: [Plan, create and update deployment environments](https://cloud.ibm.com/docs/tutorials?topic=solution-tutorials-plan-create-update-deployments#plan-create-update-deployments)
+
 
 ## License
 
