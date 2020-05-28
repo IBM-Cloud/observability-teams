@@ -60,7 +60,7 @@ variable "team_go_filter" {
 }
 
 variable "team_go_members" {
-  default    = []
+  type    = list
 }
 
 variable "team_node_name" {
@@ -84,7 +84,7 @@ variable "team_node_filter" {
 }
 
 variable "team_node_members" {
-  default    = []
+  type    = list
 }
 
 variable "cluster_id" {

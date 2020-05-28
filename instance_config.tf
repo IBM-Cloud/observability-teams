@@ -24,7 +24,7 @@ data "external" "sysdig_instance" {
   program = ["bash", "./scripts/sysdig-instance-external.sh"]
 
   query = {
-    config_directory  = "config"
+    config_directory  = "/tmp"
     region            = var.region
     IBMInstanceID     = ibm_resource_instance.sysdig.guid
     resource_group_id = data.ibm_resource_group.group.id
