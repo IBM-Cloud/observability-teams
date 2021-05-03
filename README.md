@@ -17,7 +17,7 @@ This repo has the following folder structure:
 
     * [k8s_cluster](/modules/k8s_cluster): Create a Kubernetes cluster in IBM Cloud, either in the Classic Infrastructure or VPC Infrastructure.
 
-    * [samples](/samples): This repository features two sample applications that generate metrics that are pushed to an IBM Cloud Monitoring with Sysdig instance. The first application is written in [Node.js&reg;](https://nodejs.org/) and deployed to the [IBM Cloud&trade;](https://cloud.ibm.com/) Kubernetes service. The second application is written in [Go](https://golang.org/) and deployed to the [IBM Cloud&trade;](https://cloud.ibm.com/) Kubernetes service.
+    * [samples](/samples): This repository features two sample applications that generate metrics that are pushed to an IBM Cloud Monitoring instance. The first application is written in [Node.js&reg;](https://nodejs.org/) and deployed to the [IBM Cloud&trade;](https://cloud.ibm.com/) Kubernetes service. The second application is written in [Go](https://golang.org/) and deployed to the [IBM Cloud&trade;](https://cloud.ibm.com/) Kubernetes service.
 
   <p align="center">
     <img src="docs/images/Architecture.png">
