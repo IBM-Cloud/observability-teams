@@ -1,7 +1,7 @@
 # IBM Cloud Monitoring with Sysdig Teams
 
 Use this template to:
- - provision an IBM Cloud Virtual Proviate Cloud,
+ - provision an IBM Cloud Virtual Private Cloud and a Kubernetes cluster inside of the VPC.
 
 ## Costs
 
@@ -50,10 +50,7 @@ Determine which [region](https://cloud.ibm.com/docs/Monitoring-with-Sysdig?topic
 
       resources_prefix = "<used_to_prefix_resources>"
 
-      generation = 1
     ```
-
-> Note: By default the template expects the VPC to be created in VPC generation 1, if you are creating the cluster in the VPC generation 2 infrastructure set the `generation` variable to *2*. 
 
 6. Execute terraform plan by specifying the location of variable files, state and plan file:
     ```sh

@@ -1,4 +1,4 @@
-resource "ibm_resource_instance" "sysdig" {
+resource "ibm_resource_instance" "monitoring" {
   name              = "${var.resources_prefix}-${var.sysdig_instance_name}"
   service           = "sysdig-monitor"
   plan              = var.sysdig_plan
@@ -6,42 +6,46 @@ resource "ibm_resource_instance" "sysdig" {
   resource_group_id = data.ibm_resource_group.group.id
 }
 
-resource "ibm_iam_service_id" "service_id" {
-  name        = "${var.resources_prefix}-${var.sysdig_instance_name}-key-admin"
-  description = "Service ID for ${ibm_resource_instance.sysdig.guid}"
-}
+# resource "ibm_iam_service_id" "service_id" {
+#   name        = "${var.resources_prefix}-${var.sysdig_instance_name}-key-admin"
+#   description = "Service ID for ${ibm_resource_instance.monitoring.guid}"
+# }
 
-resource "ibm_resource_key" "resource_key" {
+# resource "time_sleep" "wait_30_seconds" {
+#   depends_on = [ibm_iam_service_id.service_id]
+
+#   create_duration = "30s"
+# }
+
+resource "ibm_resource_key" "monitoring_key" {
   name                 = "${var.resources_prefix}-sysdig-resource-key"
   role                 = "Administrator"
-  resource_instance_id = ibm_resource_instance.sysdig.id
-  parameters = {
-    "serviceid_crn" = ibm_iam_service_id.service_id.crn
-  }
+  resource_instance_id = ibm_resource_instance.monitoring.id
+  # parameters = {
+  #   "serviceid_crn" = ibm_iam_service_id.service_id.crn
+  # }
+  # depends_on = [time_sleep.wait_30_seconds]
 }
 
-data "external" "sysdig_instance" {
-  program = ["bash", "./scripts/sysdig-instance-external.sh"]
+resource "sysdig_monitor_team" "team_go" {
+  name        = var.team_go_name
+  description = var.team_go_description
+  scope_by    = var.team_go_show
+  # theme        = var.team_go_theme
+  filter = var.team_go_filter
 
-  query = {
-    config_directory  = "/tmp"
-    region            = var.region
-    IBMInstanceID     = ibm_resource_instance.sysdig.guid
-    resource_group_id = data.ibm_resource_group.group.id
-    ibmcloud_api_key  = var.ibmcloud_api_key
-    
-    team_go_name         = var.team_go_name
-    team_go_description  = var.team_go_description
-    team_go_show         = var.team_go_show
-    team_go_theme        = var.team_go_theme
-    team_go_filter       = var.team_go_filter
+  can_see_infrastructure_events = true
 
-    team_node_name         = var.team_node_name
-    team_node_description  = var.team_node_description
-    team_node_show         = var.team_node_show
-    team_node_theme        = var.team_node_theme
-    team_node_filter       = var.team_node_filter    
+  entrypoint {
+    type = "Explore"
   }
+
+  # need to keep the key so that we can delete the teams
+  depends_on = [
+    ibm_resource_key.monitoring_key,
+    data.ibm_iam_auth_token.tokendata,
+    ibm_resource_instance.monitoring
+  ]
 }
 
 resource "ibm_iam_access_group" "go_group" {
@@ -60,7 +64,7 @@ resource "ibm_iam_access_group_policy" "go_group_policy" {
 
   resources {
     service              = "sysdig-monitor"
-    resource_instance_id = element(split(":",ibm_resource_instance.sysdig.id),7)
+    resource_instance_id = element(split(":",ibm_resource_instance.monitoring.id),7)
   }
 }
 
@@ -70,12 +74,33 @@ resource "ibm_iam_access_group_policy" "go_group_policy_2" {
 
   resources {
     service              = "sysdig-monitor"
-    resource_instance_id = element(split(":",ibm_resource_instance.sysdig.id),7)
+    resource_instance_id = element(split(":",ibm_resource_instance.monitoring.id),7)
 
     attributes = {
-      "sysdigTeam" = data.external.sysdig_instance.result.team_go_teamId
+      "sysdigTeam" = sysdig_monitor_team.team_go.id
     }
   }
+}
+
+resource "sysdig_monitor_team" "team_node" {
+  name        = var.team_node_name
+  description = var.team_node_description
+  scope_by    = var.team_node_show
+  # theme        = var.team_node_theme
+  filter = var.team_node_filter
+
+  can_see_infrastructure_events = true
+
+  entrypoint {
+    type = "Explore"
+  }
+
+  # need to keep the key so that we can delete the teams
+  depends_on = [
+    ibm_resource_key.monitoring_key,
+    data.ibm_iam_auth_token.tokendata,
+    ibm_resource_instance.monitoring
+  ]
 }
 
 resource "ibm_iam_access_group" "node_group" {
@@ -94,7 +119,7 @@ resource "ibm_iam_access_group_policy" "node_group_policy_1" {
 
   resources {
     service              = "sysdig-monitor"
-    resource_instance_id = element(split(":",ibm_resource_instance.sysdig.id),7)
+    resource_instance_id = element(split(":",ibm_resource_instance.monitoring.id),7)
   }
 }
 
@@ -104,10 +129,10 @@ resource "ibm_iam_access_group_policy" "node_group_policy_2" {
 
   resources {
     service              = "sysdig-monitor"
-    resource_instance_id = element(split(":",ibm_resource_instance.sysdig.id),7)
+    resource_instance_id = element(split(":",ibm_resource_instance.monitoring.id),7)
 
     attributes = {
-      "sysdigTeam" = data.external.sysdig_instance.result.team_node_teamId
+      "sysdigTeam" = sysdig_monitor_team.team_node.id
     }
   }
 }

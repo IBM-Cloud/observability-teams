@@ -143,7 +143,7 @@ Build and push the Docker image to the IBM Cloud container registry.
 
     resources_prefix = "<used_to_prefix_resources>"
 
-    cluster_id = "<your_kubernetes_cluster_id"
+    cluster_id = "<your_kubernetes_cluster_id>"
 
     go_image_repository = "<location_of_go_app_container_image>"
 
@@ -154,9 +154,7 @@ Build and push the Docker image to the IBM Cloud container registry.
     team_node_members = ["<email_address_of_an_invited_user_to_your_ibm_cloud_account>"]
     ```
 
-> Note: By default the template expects the Kubernetes cluster to have been created in a VPC Infrastructure, if you are creating the cluster in the Classic infrastructure set the following environment variable: 
-
-      export TF_VAR_cluster_infrastructure=classic
+> Note: By default the template expects the Kubernetes cluster to have been created in a VPC Infrastructure.
 
 6. Execute terraform plan by specifying the location of variable files, state and plan file:
     ```sh

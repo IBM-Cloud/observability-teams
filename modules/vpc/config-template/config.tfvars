@@ -5,5 +5,3 @@ resource_group = "default"
 region = "us-south"
 
 resources_prefix = "<used_to_prefix_resources>"
-
-generation = 1
