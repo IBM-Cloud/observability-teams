@@ -1,10 +1,10 @@
-# IBM Cloud Monitoring with Sysdig Teams
+# IBM Cloud Monitoring with Teams
 
 Use this template to:
- - provision an IBM Cloud Monitoring with Sysdig instance,
- - deploy the Sysdig agent to an existing IBM Cloud Kubernetes cluster,
+ - provision an IBM Cloud Monitoring instance,
+ - deploy the monitoring agent to an existing IBM Cloud Kubernetes cluster,
  - deploy two simple applications to the cluster,
- - configure Sysdig Teams with IAM integration,
+ - configure monitoring Teams with IAM integration,
  - and monitor the deployed environment with secure access and limited visibility to the data that matters to you as the developer.
 
 ## What's in this repo
@@ -24,29 +24,29 @@ This repo has the following folder structure:
   </p>
 
   1. After having created a new Kubernetes cluster, use the provided Terraform template to create:
-     - the Sysdig instance, the teams inside of Sysdig and configure the filtering,
-     - the [IAM access groups](https://cloud.ibm.com/iam/groups), setup the policies and associate to a specific Sysdig team,
-     - deploy the Sysdig agent to the cluster.
-  2. A developer deploys their containerized Node.js application to the cluster. Via the IAM access groups and associated Sysdig team, she is able to access metrics that are specific to her application. 
-  3. A developer deploys their containerized Go application to the cluster. Via the IAM access groups and associated Sysdig team, he is able to access metrics that are specific to his application. 
+     - the montoring instance, the teams inside of monitoring and configure the filtering,
+     - the [IAM access groups](https://cloud.ibm.com/iam/groups), setup the policies and associate to a specific team,
+     - deploy the monitoring agent to the cluster.
+  2. A developer deploys their containerized Node.js application to the cluster. Via the IAM access groups and associated monitoring team, she is able to access metrics that are specific to her application. 
+  3. A developer deploys their containerized Go application to the cluster. Via the IAM access groups and associated monitoring team, he is able to access metrics that are specific to his application. 
 
 ## Costs
 
 You must have a Pay-as-You-Go account in IBM Cloud&trade; to follow the steps in this repository to create resources. Since the costs for these resources will vary, use the [Pricing Calculator](https://cloud.ibm.com/estimator/review) to generate a cost estimate based on your projected usage.
 
-Some of the services listed above offer a limited free tier, i.e. IBM Cloud Monitoring with Sysdig, IBM Cloud Kubernetes Service which you can use for testing and will work perfectly for our example application. Please note the implication of using the free services as some will be deleted automatically after 30 days.
+Some of the services listed above offer a limited free tier, i.e. IBM Cloud Monitoring, IBM Cloud Kubernetes Service which you can use for testing and will work perfectly for our example application. Please note the implication of using the free services as some will be deleted automatically after 30 days.
 
 If you deploy paid services, make sure to delete them when they are no longer required in order to not incur charges in your account.
 
 ### Prerequisites
 Before you start, make sure to have all the items completed below as the template requires them.  
 
-Determine which [region](https://cloud.ibm.com/docs/Monitoring-with-Sysdig?topic=Sysdig-endpoints) you want to use. The value we will need is in the Region column and between the parentheses,i.e jp-tok, us-south, etc...
+Determine which [region](https://cloud.ibm.com/docs/monitoring?topic=monitoring-endpoints) you want to use. The value we will need is in the Region column and between the parentheses,i.e jp-tok, us-south, etc...
 
 - This template requires an IBM Cloud API Key that will run with your permissions. Either create a new API key for use by this template or provide an existing one. An API key is a unique code that is passed to an API to identify the application or user that is calling it. To prevent malicious use of an API, you can use API keys to track and control how that API is used. For more information about API keys and how to create them, see [Understanding API keys](https://cloud.ibm.com/docs/iam?topic=iam-manapikey) and [Managing user API keys](https://cloud.ibm.com/docs/iam?topic=iam-userapikey).
 
 - Follow the steps outlined in the [Kubernetes Service - Creating clusters](https://cloud.ibm.com/docs/containers?topic=containers-clusters) topic to create a Kubernetes cluster. You may create a Free cluster if you only intend on testing with the code in this repository. Once the instance is created, **save** the cluster ID for quick reference and proceed to the steps described below. To obtain the cluster ID
-    > Note: If you are using an existing cluster in which you have already deployed the Sysdig agent, you must [import the configuration of the agent deployment into your Terraform state](#importing-an-existing-sysdig-agent-deployment-into-the-terraform-state), however please note that when you run a Terraform destroy the agent will be removed from the cluster.
+    > Note: If you are using an existing cluster in which you have already deployed the monitoring agent, you must [import the configuration of the agent deployment into your Terraform state](#importing-an-existing-monitoring-agent-deployment-into-the-terraform-state), however please note that when you run a Terraform destroy the agent will be removed from the cluster.
 
     > Note: To obtain the cluster ID either use the CLI: `ibmcloud ks clusters` or the **[Kubernetes console](https://cloud.ibm.com/kubernetes/clusters) > <cluster_name> > Overview** page.
 
@@ -65,7 +65,7 @@ Determine which [region](https://cloud.ibm.com/docs/Monitoring-with-Sysdig?topic
 
 ## Invite users to your account
 
-This template will configure Sysdig Teams integrated with IAM, as the owner of the Sysdig instance, you will have full visibility into all of the Sysdig teams that you create, i.e. you can switch to them and see what other users would see if they were added to those teams.  However, in order to get a more immersive experience, you need to have at minimum two additional users invited to the IBM Cloud account in which you will be creating these resources, follow the steps outlined below to invite users to your account:
+This template will configure monitoringg Teams integrated with IAM, as the owner of the instance, you will have full visibility into all of the teams that you create, i.e. you can switch to them and see what other users would see if they were added to those teams.  However, in order to get a more immersive experience, you need to have at minimum two additional users invited to the IBM Cloud account in which you will be creating these resources, follow the steps outlined below to invite users to your account:
 
 1. Go to [Identity & Access > Users](https://cloud.ibm.com/iam/users) in the IBM Cloud console.
 2. Click the **Invite Users** button.
@@ -74,7 +74,7 @@ This template will configure Sysdig Teams integrated with IAM, as the owner of t
 ## Getting started
 
 1. Clone this repository to your local computer.
-1. From a terminal window change to the `monitoring-sysdig-teams` directory.
+1. From a terminal window change to the `monitoring-teams` directory.
 1. Copy the **config-template** directory to a directory called **config**.
 
 ## Build and push the container image for the applications
@@ -120,7 +120,7 @@ Build and push the Docker image to the IBM Cloud container registry.
 
 ### Deploy the application
 
-1. From a terminal window, change to the `monitoring-sysdig-teams` directory.
+1. From a terminal window, change to the `monitoring-teams` directory.
 2. Enable tracing (optional):
     ```sh
     export TF_LOG=TRACE
@@ -174,7 +174,7 @@ Build and push the Docker image to the IBM Cloud container registry.
 
 1. Log in to your IBM Cloud account from a browser.
 2. Navigate to **Observability** > **Monitoring** page.
-3. Click on the **View Sysdig** for your **<your_resources_prefix>-monitoring-sysdig** instance.
+3. Click on the **View IBM Cloud Monitoring** for your **<your_resources_prefix>-monitoring** instance.
 4. From the left panel, click on your initials, you should get a popup with a list of teams:
     - Monitor Operations
     - Team Go
@@ -189,7 +189,7 @@ Build and push the Docker image to the IBM Cloud container registry.
 1. Log in to your IBM Cloud account from a browser with an account that you added to the Go team.
 2. From the top nav bar, select to switch to the account this user was invited to.
 3. Navigate to **Observability** > **Monitoring** page.
-4. Click on the **View Sysdig** for your **<your_resources_prefix>-monitoring-sysdig** instance.
+4. Click on the **View IBM Cloud Monitoring** for your **<your_resources_prefix>-monitoring** instance.
 5. From the left panel, click on your initials, you should get a popup with a list of teams:
     - Team Go
 6. Notice the user only has access to the data related to the Go application/containers.
@@ -204,14 +204,14 @@ Build and push the Docker image to the IBM Cloud container registry.
 
 ## Tips and Tricks
 
-### Importing an existing Sysdig agent deployment into the Terraform State
+### Importing an existing monitoring agent deployment into the Terraform State
 
-Importing the namespace in which the Sysdig agent was deployed:
+Importing the namespace in which the monitoring agent was deployed:
   ```
   terraform import -var-file=config/config.tfvars -state-out=config/config.tfstate kubernetes_namespace.ibm_observe ibm-observe
   ```
 
-Importing the service account for the Sysdig agent:
+Importing the service account for the monitoring agent:
   ```
   terraform import -var-file=config/config.tfvars -state-out=config/config.tfstate kubernetes_service_account.sysdig_agent ibm-observe/sysdig-agent
   ```
@@ -227,7 +227,7 @@ Importing the cluster role and cluster role binding:
 
 ## Related Content
 
-Tutorial: [Analyze logs and monitor application health with LogDNA and Sysdig](https://cloud.ibm.com/docs/tutorials?topic=solution-tutorials-application-log-analysis).
+Tutorial: [Analyze logs and monitor application health](https://cloud.ibm.com/docs/tutorials?topic=solution-tutorials-application-log-analysis).
 
 Tutorial: [Plan, create and update deployment environments](https://cloud.ibm.com/docs/tutorials?topic=solution-tutorials-plan-create-update-deployments#plan-create-update-deployments)
 
