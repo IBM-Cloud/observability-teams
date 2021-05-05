@@ -4,7 +4,7 @@ variable "ibmcloud_api_key" {
 
 variable "region" {
   description = "The IBM Cloud region to deploy the resources under. "
-  default = "us-south"
+  default = "us-east"
 }
 
 variable "resources_prefix" {
@@ -16,14 +16,14 @@ variable "resource_group" {
   default     = "default"
 }
 
-variable "sysdig_plan" {
-  description = "Plan for your Sysdig instance in IBM Cloud."
+variable "monitoring_plan" {
+  description = "Plan for your Monitoring instance in IBM Cloud."
   default = "graduated-tier"
 }
 
-variable "sysdig_instance_name" {
-  description = "Name of your Sysdig instance in IBM Cloud."
-  default = "sysdig-monitoring"
+variable "monitoring_instance_name" {
+  description = "Name of your Monitoring instance in IBM Cloud."
+  default = "monitoring"
 }
 
 variable "sysdig_tags" {

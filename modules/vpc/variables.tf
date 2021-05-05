@@ -35,11 +35,11 @@ variable "resource_group" {
 # ---------------------------------------------------- #
 
 variable "worker_count" {
-  default = 1
+  default = 3
 }
 
 variable "flavor" {
-  default = "cx2.2x4"
+  default = "cx2.4x8"
 }
 
 variable "kube_version" {
