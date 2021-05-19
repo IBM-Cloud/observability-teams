@@ -19,6 +19,7 @@ resource "ibm_ob_logging" "logging" {
   logdna_ingestion_key = ibm_resource_key.logging_key.credentials["ingestion_key"]
   private_endpoint     = true
 
+
   depends_on = [ibm_resource_key.logging_key]
 }
 
@@ -42,7 +43,7 @@ resource "ibm_ob_monitoring" "monitoring" {
   instance_id       = ibm_resource_instance.monitoring.guid
   sysdig_access_key = ibm_resource_key.monitoring_key.credentials["Sysdig Access Key"]
   private_endpoint  = true
-  
+
   depends_on = [ibm_resource_key.monitoring_key]
 }
 
@@ -203,3 +204,116 @@ resource "ibm_iam_access_group_policy" "node_group_policy_4" {
     }
   }
 }
+
+resource "null_resource" "logging_create_group_1" {
+  count = var.logdna_service_key != "" ? 1 : 0
+
+  provisioner "local-exec" {
+    command     = "./scripts/logging-instance-external.sh"
+    interpreter = ["bash", "-c"]
+
+    environment = {
+      config_directory   = "/tmp"
+      region             = var.region
+      logdna_service_key = var.logdna_service_key
+
+      group_name         = var.team_node_name
+      group_access_scope = var.team_node_access_scope
+    }
+  }
+
+  depends_on = [ibm_resource_key.logging_key]
+}
+
+resource "null_resource" "logging_create_group_2" {
+  count = var.logdna_service_key != "" ? 1 : 0
+
+  provisioner "local-exec" {
+    command     = "./scripts/logging-instance-external.sh"
+    interpreter = ["bash", "-c"]
+
+    environment = {
+      config_directory   = "/tmp"
+      region             = var.region
+      logdna_service_key = var.logdna_service_key
+
+      group_name         = var.team_go_name
+      group_access_scope = var.team_go_access_scope
+    }
+  }
+
+  depends_on = [
+    ibm_resource_key.logging_key,
+    null_resource.logging_create_group_1
+  ]
+}
+
+data "ibm_resource_instance" "activity_tracker" {
+  name              = var.activity_tracker_instance_name
+  location          = var.region
+  resource_group_id = data.ibm_resource_group.group.id
+  service           = "logdnaat"
+}
+
+# Unable to use the following: https://github.com/IBM-Cloud/terraform-provider-ibm/issues/2650, as a result creating a new one in the next section.
+# data "ibm_resource_key" "activity_tracker" {
+#   resource_instance_id  = data.ibm_resource_instance.activity_tracker.id
+# }
+
+# resource "ibm_resource_key" "activity_tracker" {
+#   name                 = ar.activity_tracker_instance_name
+#   resource_instance_id = data.ibm_resource_instance.activity_tracker.id
+#   role                 = "Manager"
+# }
+
+resource "null_resource" "activity_tracker_create_group" {
+  count = var.activity_tracker_service_key != "" ? 1 : 0
+
+  provisioner "local-exec" {
+    command     = "./scripts/logging-instance-external.sh"
+    interpreter = ["bash", "-c"]
+
+    environment = {
+      config_directory   = "/tmp"
+      region             = var.region
+      logdna_service_key = var.activity_tracker_service_key
+
+      group_name         = var.team_cluster_name
+      group_access_scope = var.cluster_access_scope
+    }
+  }
+}
+
+resource "ibm_iam_access_group" "cluster_group" {
+  name        = var.team_cluster_name
+  description = "Cluster access group for Activity Tracker team"
+}
+
+resource "ibm_iam_access_group_members" "cluster_group" {
+  access_group_id = ibm_iam_access_group.cluster_group.id
+  ibm_ids         = var.team_cluster_members
+}
+
+# resource "ibm_iam_access_group_policy" "cluster_group_policy_1" {
+#   access_group_id = ibm_iam_access_group.cluster_group.id
+#   roles           = ["Viewer"]
+
+#   resources {
+#     service              = "logdnaat"
+#     resource_instance_id = element(split(":", data.ibm_resource_instance.activity_tracker.id), 7)
+#   }
+# }
+
+# resource "ibm_iam_access_group_policy" "cluster_group_policy_2" {
+#   access_group_id = ibm_iam_access_group.cluster_group.id
+#   roles           = ["Reader"]
+
+#   resources {
+#     service              = "logdnaat"
+#     resource_instance_id = element(split(":", data.ibm_resource_instance.activity_tracker.id), 7)
+
+#     attributes = {
+#       "logGroup" = var.team_cluster_name
+#     }
+#   }
+# }

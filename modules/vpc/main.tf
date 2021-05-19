@@ -47,12 +47,12 @@ resource "ibm_container_vpc_cluster" "cluster" {
     subnet_id = ibm_is_subnet.sub[0].id
     name      = ibm_is_subnet.sub[0].zone
   }
-  zones {
-    subnet_id = ibm_is_subnet.sub[1].id
-    name      = ibm_is_subnet.sub[1].zone
-  }
-  zones {
-    subnet_id = ibm_is_subnet.sub[2].id
-    name      = ibm_is_subnet.sub[2].zone
-  }
+  # zones {
+  #   subnet_id = ibm_is_subnet.sub[1].id
+  #   name      = ibm_is_subnet.sub[1].zone
+  # }
+  # zones {
+  #   subnet_id = ibm_is_subnet.sub[2].id
+  #   name      = ibm_is_subnet.sub[2].zone
+  # }
 }

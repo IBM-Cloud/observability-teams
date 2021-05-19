@@ -54,6 +54,10 @@ variable "team_go_members" {
   type    = list
 }
 
+variable "team_go_access_scope" {
+  default     = "app:go-app"
+}
+
 variable "team_node_name" {
   default     = "Team Node"
 }
@@ -78,6 +82,10 @@ variable "team_node_members" {
   type    = list
 }
 
+variable "team_node_access_scope" {
+  default     = "app:node-app"
+}
+
 variable "cluster_id" {
   description = "ID for Kubernetes cluster in IBM Cloud."
 }
@@ -98,4 +106,29 @@ variable "node_app_name" {
 
 variable "node_image_repository" {
   description = "Location of the node image in the the image Container Registry."
+}
+
+variable "logdna_service_key" {
+  default = ""
+}
+
+variable "activity_tracker_service_key" {
+  default = ""
+}
+
+variable "cluster_access_scope" {
+  default = "host:containers-kubernetes"
+}
+
+variable "team_cluster_name" {
+  default     = "Team Cluster"
+}
+
+variable "activity_tracker_instance_name" {
+  description = "Name of your Activity Tracker instance in IBM Cloud."
+  default = "activity-tracker"
+}
+
+variable "team_cluster_members" {
+  type    = list
 }

@@ -196,7 +196,7 @@ Build and push the Docker image to the IBM Cloud container registry.
 ### Delete all resources
 1. Destroy resource when done by specifying the location of variable files, and state file:
     ```sh
-    terraform destroy -var-file=config/config.tfvars -state=config/config.tfstate
+    terraform destroy -var-file=config/config.tfvars -state=config/config.tfstate -refresh
     ```
   > Note: This is not reversible all resources stored in the Terraform state will be removed.
 

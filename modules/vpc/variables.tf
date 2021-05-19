@@ -35,7 +35,7 @@ variable "resource_group" {
 # ---------------------------------------------------- #
 
 variable "worker_count" {
-  default = 3
+  default = 2
 }
 
 variable "flavor" {

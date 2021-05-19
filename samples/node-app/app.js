@@ -3,6 +3,7 @@ const express = require('express');
 const server = express();
 const register = new client.Registry();
 const { join } = require('path');
+const morgan = require("morgan");
 
 // Probe every 5th second.
 const intervalCollector = client.collectDefaultMetrics({prefix: 'node_', timeout: 5000, register});
@@ -44,7 +45,6 @@ register.registerMetric(requestHistogram);
 
 const rand = (low, high) => Math.random() * (high - low) + low;
 
-
 setInterval(() => {
     counter.inc(rand(0, 1));
 
@@ -57,7 +57,19 @@ setInterval(() => {
 
 }, 1000);
 
+const custom =
+  ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" :response-time ms :pid :local-address';
+
+const system = require("./utils/logger").systemLog("/var/log");
+const access = require("./utils/logger").accessLog("/var/log");
+
+morgan.token("pid", req => process.pid);
+morgan.token("local-address", req => req.socket.address().port);
+server.use(morgan(custom, { skip: (req, res) => res.statusCode < 400 }));
+server.use(morgan(custom, { stream: access }));
+
 server.get("/health", function(req, res, next) {
+  system.info(`{ status: "UP" }`);
   res.json({ status: "UP" });
 });
 
@@ -92,5 +104,6 @@ server.get('/', (req,res) => {
 //     res.end();
 // }));
 
+system.info(`Server listening to 8081, metrics exposed on /metrics endpoint`);
 console.log('Server listening to 8081, metrics exposed on /metrics endpoint');
 server.listen(8081);
