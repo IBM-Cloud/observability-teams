@@ -7,7 +7,7 @@ err(){
   echo "Error: $*" >>/dev/stderr
 }
 
-logdna_uri=api.${region}.logging.cloud.ibm.com
+uri=api.${region}.logging.cloud.ibm.com
 
 cat > "${config_directory}/post_payload.json" <<- EOF
 {
@@ -17,7 +17,7 @@ cat > "${config_directory}/post_payload.json" <<- EOF
 EOF
 [ $? -ne 0 ] && err "cat post_payload.json" && exit 1
 
-post_result=$(curl -s -X POST -H "Content-Type: application/json" -H "servicekey: ${logdna_service_key}" -d @${config_directory}/post_payload.json "https://${logdna_uri}/v1/config/groups")
+post_result=$(curl -s -X POST -H "Content-Type: application/json" -H "servicekey: ${service_key}" -d @${config_directory}/post_payload.json "https://${uri}/v1/config/groups")
 [ $? -ne 0 ] && err "post_result" && exit 1
 
 echo ${post_result} >${config_directory}/post_result.json
@@ -29,4 +29,5 @@ else
   exit 1
 fi 
 
+sleep 5
 exit 0 

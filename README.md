@@ -1,10 +1,14 @@
-# IBM Cloud Monitoring with Teams
+# IBM Cloud Monitoring, Logging and Activity Tracker with Teams
 
 Use this template to:
  - provision an IBM Cloud Monitoring instance,
+ - provision an IBM Cloud Log Analysis instance,
  - deploy the monitoring agent to an existing IBM Cloud Kubernetes cluster,
+ - deploy the logging agent to an existing IBM Cloud Kubernetes cluster,
  - deploy two simple applications to the cluster,
  - configure monitoring Teams with IAM integration,
+ - configure logging Teams with IAM integration,
+ - configure activity tracker Teams with IAM integration,
  - and monitor the deployed environment with secure access and limited visibility to the data that matters to you as the developer.
 
 ## What's in this repo
@@ -44,6 +48,8 @@ Before you start, make sure to have all the items completed below as the templat
 Determine which [region](https://cloud.ibm.com/docs/monitoring?topic=monitoring-endpoints) you want to use. The value we will need is in the Region column and between the parentheses,i.e jp-tok, us-south, etc...
 
 - This template requires an IBM Cloud API Key that will run with your permissions. Either create a new API key for use by this template or provide an existing one. An API key is a unique code that is passed to an API to identify the application or user that is calling it. To prevent malicious use of an API, you can use API keys to track and control how that API is used. For more information about API keys and how to create them, see [Understanding API keys](https://cloud.ibm.com/docs/iam?topic=iam-manapikey) and [Managing user API keys](https://cloud.ibm.com/docs/iam?topic=iam-userapikey).
+
+- Activity Tracker is a service that allows only one instance per IBM Cloud region, this template does not create an Activity Tracker instance for you, it requires instead that you provide the name of an existing Activity Tracker instance.  If you don't have one, follow these steps to create one: https://cloud.ibm.com/docs/activity-tracker?topic=activity-tracker-provision
 
 - Follow the steps outlined in the [Kubernetes Service - Creating clusters](https://cloud.ibm.com/docs/containers?topic=containers-clusters) topic to create a Kubernetes cluster. You may create a Free cluster if you only intend on testing with the code in this repository. Once the instance is created, **save** the cluster ID for quick reference and proceed to the steps described below. To obtain the cluster ID
     > Note: If you are using an existing cluster in which you have already deployed the monitoring agent, you must [import the configuration of the agent deployment into your Terraform state](#importing-an-existing-monitoring-agent-deployment-into-the-terraform-state), however please note that when you run a Terraform destroy the agent will be removed from the cluster.
@@ -165,15 +171,32 @@ Build and push the Docker image to the IBM Cloud container registry.
     terraform apply -state-out=config/config.tfstate config/config.plan
     ```
 
-
   > Note: If you plan on building for multiple environments or regions, you may want to maintain separate state files for each of these environments, you can use a different `config` directory for each environment or region.  Another solution is to use Terraform workspaces which is discussed in our [Plan, create and update deployment environments](https://cloud.ibm.com/docs/tutorials?topic=solution-tutorials-plan-create-update-deployments#plan-create-update-deployments) tutorial.
+
+### Create a service key for the Logging instance
+
+1. Log in to your IBM Cloud account from a browser.
+2. Navigate to **Observability** > **Logging** page.
+3. Click on the **Open dashboard** for your **<your_resources_prefix>-logging** instance.
+4. From the navigation panel, click on **Settings (the gear icon)** and expand **Organization** and click on **API Keys**.
+5. Click on **Generate Service Key**. 
+6. Copy and paste the value provided for the service key into the `logging_service_key` variable of your `config/config.tfvars` file.
+
+### Create a service key for your existing Activity Tracker instance
+
+1. Log in to your IBM Cloud account from a browser.
+2. Navigate to **Observability** > **Activity** page.
+3. Click on the **Open dashboard** for the Activity Tracker instance in the region you are using.
+4. From the navigation panel, click on **Settings (the gear icon)** and expand **Organization** and click on **API Keys**.
+5. Click on **Generate Service Key**. 
+6. Copy and paste the value provided for the service key into the `activity_tracker_service_key` variable of your `config/config.tfvars` file.
 
 ### Verify metrics are visible to each designated team
 
 1. Log in to your IBM Cloud account from a browser.
 2. Navigate to **Observability** > **Monitoring** page.
-3. Click on the **View IBM Cloud Monitoring** for your **<your_resources_prefix>-monitoring** instance.
-4. From the left panel, click on your initials, you should get a popup with a list of teams:
+3. Click on the **Open dashboard** for your **<your_resources_prefix>-monitoring** instance.
+4. From the navigation panel, click on your initials, you should get a popup with a list of teams:
     - Monitor Operations
     - Team Go
     - Team Node

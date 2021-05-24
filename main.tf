@@ -9,7 +9,6 @@ data "ibm_container_vpc_cluster" "cluster" {
 
 }
 
-// https://github.com/IBM-Cloud/terraform-provider-ibm/issues/2651
 data "ibm_container_cluster_config" "clusterConfig" {
   cluster_name_id   = var.cluster_id
   resource_group_id = data.ibm_resource_group.group.id
