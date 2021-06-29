@@ -111,17 +111,25 @@ Build and push the Docker image to the IBM Cloud container registry.
 ### Prepare the container image for the Go application
 
 1. From a terminal window, change to the `samples/go-app` directory.
-2. Build, tag (-t) and push the container to your container registry on IBM Cloud:
+2. Build, tag (-t) to a image:
     ```
-    ibmcloud cr build -t <your_region_registry>/<your_registry_namespace>/metrics-go-app .
+    docker build -t <your_region_registry>/<your_registry_namespace>/metrics-go-app .
+    ```
+3. Push the image to your container registry on IBM Cloud:
+    ```
+    docker image push <your_region_registry>/<your_registry_namespace>/metrics-go-app
     ```
 
 ### Prepare the container image for the Node.js application
 
 1. Open a terminal window and change to the `samples/node-app` directory.
-2. Build, tag (-t) and push the container to your container registry on IBM Cloud:
+2. Build, tag (-t) to a image:
     ```
-    ibmcloud cr build -t <your_region_registry>/<your_registry_namespace>/metrics-node-app .
+    docker build -t <your_region_registry>/<your_registry_namespace>/metrics-node-app .
+    ```
+3. Push the image to your container registry on IBM Cloud:
+    ```
+    docker image push <your_region_registry>/<your_registry_namespace>/metrics-node-app
     ```
 
 ### Deploy the application
@@ -158,6 +166,13 @@ Build and push the Docker image to the IBM Cloud container registry.
     team_go_members = ["<email_address_of_an_invited_user_to_your_ibm_cloud_account>"]
 
     team_node_members = ["<email_address_of_an_invited_user_to_your_ibm_cloud_account>"]
+
+    activity_tracker_instance_name = "<name of existing activity tracker instance>"
+
+    activity_tracker_service_key = "Your service key can be generated or retrieved from the LogDNA web application. Navigate to Settings > Organization > API Keys"
+
+    logging_service_key = ""
+
     ```
 
 > Note: By default the template expects the Kubernetes cluster to have been created in a VPC Infrastructure.
@@ -191,6 +206,17 @@ Build and push the Docker image to the IBM Cloud container registry.
 5. Click on **Generate Service Key**. 
 6. Copy and paste the value provided for the service key into the `activity_tracker_service_key` variable of your `config/config.tfvars` file.
 
+### Run Terraform Plan and Apply
+
+1. Execute terraform plan by specifying the location of variable files, state and plan file:
+    ```sh
+    terraform plan -var-file=config/config.tfvars -state=config/config.tfstate -out=config/config.plan
+    ```
+2. Apply terraform plan by specifying the location of plan file:
+    ```sh
+    terraform apply -state-out=config/config.tfstate config/config.plan
+    ```
+
 ### Verify metrics are visible to each designated team
 
 1. Log in to your IBM Cloud account from a browser.
@@ -205,12 +231,23 @@ Build and push the Docker image to the IBM Cloud container registry.
     - Team Go: You can see metrics only from containers related to the Go application
     - Team Node: You can see metrics only from containers related to the Node.js application.
 
-### Verify metrics are visible to each account you added to a team
+### Verify metrics, logging and activities are visible to each account you added to a team
 
 1. Log in to your IBM Cloud account from a browser with an account that you added to the Go team.
 2. From the top nav bar, select to switch to the account this user was invited to.
 3. Navigate to **Observability** > **Monitoring** page.
-4. Click on the **View IBM Cloud Monitoring** for your **<your_resources_prefix>-monitoring** instance.
+4. Click on the **Open dashboard** for your **<your_resources_prefix>-monitoring** instance.
+5. From the left panel, click on your initials, you should get a popup with a list of teams:
+    - Team Go
+6. Notice the user only has access to the data related to the Go application/containers.
+7. Repeat the above steps for the other accounts.
+
+### Verify logs and activities are visible to each account you added to a team
+
+1. Log in to your IBM Cloud account from a browser with an account that you added to the Go team.
+2. From the top nav bar, select to switch to the account this user was invited to.
+3. Navigate to **Observability** > **Logging** page.
+4. Click on the **Open dashboard** for your **<your_resources_prefix>-logging** instance.
 5. From the left panel, click on your initials, you should get a popup with a list of teams:
     - Team Go
 6. Notice the user only has access to the data related to the Go application/containers.
