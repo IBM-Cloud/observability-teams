@@ -104,6 +104,6 @@ server.get('/', (req,res) => {
 //     res.end();
 // }));
 
-system.info(`Server listening to 8081, metrics exposed on /metrics endpoint`);
-console.log('Server listening to 8081, metrics exposed on /metrics endpoint');
-server.listen(8081);
+system.info(`Server listening to 80, metrics exposed on /metrics endpoint`);
+console.log('Server listening to 80, metrics exposed on /metrics endpoint');
+server.listen(80);

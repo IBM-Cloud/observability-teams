@@ -2,5 +2,5 @@ FROM node:alpine
 WORKDIR /app
 ADD . .
 RUN cd /app && npm install
-EXPOSE 8081
+EXPOSE 80
 CMD ["node", "/app/app"]
