@@ -49,7 +49,7 @@ const accessLog = build => {
 
   let accessLog = FileStreamRotator.getStream({
     date_format: "YYYYMMDD",
-    filename: logDirectory + "/access-%DATE%.log", // Comment out to send to STDOUT for testing
+    // filename: logDirectory + "/access-%DATE%.log", // Comment out this line to send to STDOUT
     frequency: "daily",
     verbose: false
   });

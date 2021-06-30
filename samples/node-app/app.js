@@ -2,7 +2,6 @@ const client = require('prom-client');
 const express = require('express');
 const server = express();
 const register = new client.Registry();
-const { join } = require('path');
 const morgan = require("morgan");
 
 // Probe every 5th second.
@@ -90,8 +89,24 @@ function newObservableRequest(histogram, func) {
     }
 }
 
-server.get('/', (req,res) => {
-  res.sendFile(join(__dirname,'./public/index.html'));
+server.use(express.static('./public'));
+
+server.use((req, res, next) => {
+    let err = new Error('The address or route you entered does not exist on this server.');
+    err.status = 404;
+    err.code = 'ROUTE_NOT_FOUND'
+    next(err);
+});
+
+server.use((err, req, res, next) => {
+    res.status(err.status || 500).send({
+        data: {},
+        errors: [{
+            message: err.message,
+            code: err.code,
+            timestamp: ""
+        }]
+    });
 });
 
 // server.get('/', newObservableRequest(requestHistogram, (req, res) => {
