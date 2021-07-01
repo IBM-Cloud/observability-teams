@@ -15,11 +15,13 @@ Use this template to:
 
 This repo has the following folder structure:
 
-* [modules](/modules): This folder contains multiple stand alone modules that are relevant to the main template.
+* [modules](/modules): This folder contains stand alone modules that are relevant to the main template.
 
     * [vpc](/modules/vpc): Create a VPC in IBM Cloud if you do not already have one and intend to deploy in VPC. Create a Kubernetes cluster in IBM Cloud in the VPC.
 
-    * [samples](/samples): This repository features two sample applications that generate metrics and limited logs that are pushed to IBM Cloud Monitoring and Log Analysis instances. The first application is written in [Node.js&reg;](https://nodejs.org/) and deployed to the [IBM Cloud&trade;](https://cloud.ibm.com/) Kubernetes service. The second application is written in [Go](https://golang.org/) and deployed to the [IBM Cloud&trade;](https://cloud.ibm.com/) Kubernetes service.
+* [samples](/samples): This repository features two sample applications that generate metrics and limited logs that are pushed to IBM Cloud Monitoring and Log Analysis instances. 
+    * The first application is written in [Node.js&reg;](https://nodejs.org/) and deployed to the [IBM Cloud&trade;](https://cloud.ibm.com/) Kubernetes service. 
+    * The second application is written in [Go](https://golang.org/) and deployed to the [IBM Cloud&trade;](https://cloud.ibm.com/) Kubernetes service.
 
   <p align="center">
     <img src="docs/images/Architecture.png">
