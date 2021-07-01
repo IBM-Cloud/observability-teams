@@ -80,7 +80,7 @@ This template will configure monitoringg Teams integrated with IAM, as the owner
 ## Getting started
 
 1. Clone this repository to your local computer.
-1. From a terminal window change to the `monitoring-teams` directory.
+1. From a terminal window change to the `observability-teams` directory.
 1. Copy the **config-template** directory to a directory called **config**.
 
 ## Build and push the container image for the applications
