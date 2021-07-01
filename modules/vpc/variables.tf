@@ -43,5 +43,5 @@ variable "flavor" {
 }
 
 variable "kube_version" {
-  default = "1.20.6"
+  default = "1.20.7"
 }
