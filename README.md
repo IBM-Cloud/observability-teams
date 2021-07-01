@@ -231,16 +231,14 @@ Build and push the Docker image to the IBM Cloud container registry.
     - Team Go: You can see metrics only from containers related to the Go application
     - Team Node: You can see metrics only from containers related to the Node.js application.
 
-### Verify metrics, logging and activities are visible to each account you added to a team
+### Verify metrics are visible to each account you added to a team
 
 1. Log in to your IBM Cloud account from a browser with an account that you added to the Go team.
 2. From the top nav bar, select to switch to the account this user was invited to.
 3. Navigate to **Observability** > **Monitoring** page.
 4. Click on the **Open dashboard** for your **<your_resources_prefix>-monitoring** instance.
-5. From the left panel, click on your initials, you should get a popup with a list of teams:
-    - Team Go
-6. Notice the user only has access to the data related to the Go application/containers.
-7. Repeat the above steps for the other accounts.
+5. Notice the user only has access to the data related to the relevant application/containers.
+6. Repeat the above steps for the other accounts.
 
 ### Verify logs and activities are visible to each account you added to a team
 
@@ -248,10 +246,10 @@ Build and push the Docker image to the IBM Cloud container registry.
 2. From the top nav bar, select to switch to the account this user was invited to.
 3. Navigate to **Observability** > **Logging** page.
 4. Click on the **Open dashboard** for your **<your_resources_prefix>-logging** instance.
-5. From the left panel, click on your initials, you should get a popup with a list of teams:
-    - Team Go
+5. Content that is visible to you are specific to you only.  
 6. Notice the user only has access to the data related to the Go application/containers.
-7. Repeat the above steps for the other accounts.
+7. Repeat the above steps for your instance of Activity Tracker. 
+8. Repeat the above steps for the other accounts.
 
 ### Delete all resources
 1. Destroy resource when done by specifying the location of variable files, and state file:
@@ -259,6 +257,8 @@ Build and push the Docker image to the IBM Cloud container registry.
     terraform destroy -var-file=config/config.tfvars -state=config/config.tfstate -refresh
     ```
   > Note: This is not reversible all resources stored in the Terraform state will be removed.
+
+2. Terraform will not delete the group that was created in Activity Tracker, you will need to delete this group manualy. Follow the steps outlined in the documentation here: https://cloud.ibm.com/docs/activity-tracker?topic=activity-tracker-group_data_access#groups_data_access_editing
 
 ## Tips and Tricks
 
