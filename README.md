@@ -17,28 +17,26 @@ This repo has the following folder structure:
 
 * [modules](/modules): This folder contains multiple stand alone modules that are relevant to the main template.
 
-    * [vpc](/modules/vpc): Create a VPC in IBM Cloud if you do not already have one and intend to deploy in VPC.
+    * [vpc](/modules/vpc): Create a VPC in IBM Cloud if you do not already have one and intend to deploy in VPC. Create a Kubernetes cluster in IBM Cloud in the VPC.
 
-    * [k8s_cluster](/modules/k8s_cluster): Create a Kubernetes cluster in IBM Cloud, either in the Classic Infrastructure or VPC Infrastructure.
-
-    * [samples](/samples): This repository features two sample applications that generate metrics that are pushed to an IBM Cloud Monitoring instance. The first application is written in [Node.js&reg;](https://nodejs.org/) and deployed to the [IBM Cloud&trade;](https://cloud.ibm.com/) Kubernetes service. The second application is written in [Go](https://golang.org/) and deployed to the [IBM Cloud&trade;](https://cloud.ibm.com/) Kubernetes service.
+    * [samples](/samples): This repository features two sample applications that generate metrics and limited logs that are pushed to IBM Cloud Monitoring and Log Analysis instances. The first application is written in [Node.js&reg;](https://nodejs.org/) and deployed to the [IBM Cloud&trade;](https://cloud.ibm.com/) Kubernetes service. The second application is written in [Go](https://golang.org/) and deployed to the [IBM Cloud&trade;](https://cloud.ibm.com/) Kubernetes service.
 
   <p align="center">
     <img src="docs/images/Architecture.png">
   </p>
 
   1. After having created a new Kubernetes cluster, use the provided Terraform template to create:
-     - the montoring instance, the teams inside of monitoring and configure the filtering,
+     - the montoring and log analysis instances, the teams inside of monitoring and log analysis,
      - the [IAM access groups](https://cloud.ibm.com/iam/groups), setup the policies and associate to a specific team,
-     - deploy the monitoring agent to the cluster.
-  2. A developer deploys their containerized Node.js application to the cluster. Via the IAM access groups and associated monitoring team, she is able to access metrics that are specific to her application. 
-  3. A developer deploys their containerized Go application to the cluster. Via the IAM access groups and associated monitoring team, he is able to access metrics that are specific to his application. 
+     - deploy the monitoring and logging agents to the cluster.
+  2. A developer deploys their containerized Node.js application to the cluster. Via the IAM access groups and associated monitoring team, she is able to access logs and metrics that are specific to her application. 
+  3. A developer deploys their containerized Go application to the cluster. Via the IAM access groups and associated monitoring team, he is able to access logs and metrics that are specific to his application. 
 
 ## Costs
 
 You must have a Pay-as-You-Go account in IBM Cloud&trade; to follow the steps in this repository to create resources. Since the costs for these resources will vary, use the [Pricing Calculator](https://cloud.ibm.com/estimator/review) to generate a cost estimate based on your projected usage.
 
-Some of the services listed above offer a limited free tier, i.e. IBM Cloud Monitoring, IBM Cloud Kubernetes Service which you can use for testing and will work perfectly for our example application. Please note the implication of using the free services as some will be deleted automatically after 30 days.
+Some of the services listed above offer a limited free tier, i.e. IBM Cloud Monitoring, IBM Cloud Log Analysis, IBM Cloud Activity Trackler and IBM Cloud Kubernetes Service which you can use for testing and will work perfectly for our example application. Please note the implication of using the free services as some will be deleted automatically after 30 days.
 
 If you deploy paid services, make sure to delete them when they are no longer required in order to not incur charges in your account.
 
