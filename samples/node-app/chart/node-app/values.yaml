@@ -14,4 +14,4 @@ livenessProbe:
 service:
   name: node
   type: ClusterIP
-  servicePort: 8081
+  servicePort: 80

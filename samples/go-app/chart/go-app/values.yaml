@@ -14,4 +14,4 @@ livenessProbe:
 service:
   name: go
   type: ClusterIP
-  servicePort: 8080
+  servicePort: 80

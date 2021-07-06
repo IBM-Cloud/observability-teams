@@ -3,8 +3,8 @@ variable "ibmcloud_api_key" {
 }
 
 variable "region" {
-  description = "The IBM Cloud region to deploy the resources under. "
-  default = "us-south"
+  description = "The IBM Cloud region to deploy the resources under."
+  default     = "us-east"
 }
 
 variable "resources_prefix" {
@@ -16,75 +16,72 @@ variable "resource_group" {
   default     = "default"
 }
 
-variable "sysdig_plan" {
-  description = "Plan for your Sysdig instance in IBM Cloud."
-  default = "graduated-tier"
+variable "monitoring_plan" {
+  description = "Plan for your Monitoring instance in IBM Cloud."
+  default     = "graduated-tier"
 }
 
-variable "sysdig_instance_name" {
-  description = "Name of your Sysdig instance in IBM Cloud."
-  default = "sysdig-monitoring"
-}
-
-variable "sysdig_tags" {
-  default = "ibm.containers-kubernetes.cluster.id"
+variable "monitoring_instance_name" {
+  description = "Name of your Monitoring instance in IBM Cloud."
+  default     = "monitoring"
 }
 
 variable "team_go_name" {
-  default     = "Team Go"
+  default = "Team Go"
 }
 
 variable "team_go_description" {
-  default     = "Go team with limited visibility"
+  default = "Go team with limited visibility"
 }
 
 variable "team_go_show" {
-  default     = "container"
+  default = "container"
 }
 
 variable "team_go_theme" {
-  default     = "#7FD5EA"
+  default = "#7FD5EA"
 }
 
 variable "team_go_filter" {
-  default     = "kubernetes.deployment.name in (\"go-app-deployment\")"
+  default = "kubernetes.deployment.name in (\"go-app-deployment\")"
 }
 
 variable "team_go_members" {
-  type    = list
+  type = list(any)
 }
 
 variable "team_node_name" {
-  default     = "Team Node"
+  default = "Team Node"
 }
 
 variable "team_node_description" {
-  default     = "Node.js team with limited visibility"
+  default = "Node.js team with limited visibility"
 }
 
 variable "team_node_show" {
-  default     = "container"
+  default = "container"
 }
 
 variable "team_node_theme" {
-  default     = "#43853D"
+  default = "#43853D"
 }
 
 variable "team_node_filter" {
-  default     = "kubernetes.deployment.name in (\"node-app-deployment\")"
+  default = "kubernetes.deployment.name in (\"node-app-deployment\")"
 }
 
 variable "team_node_members" {
-  type    = list
+  type = list(any)
 }
 
 variable "cluster_id" {
   description = "ID for Kubernetes cluster in IBM Cloud."
+  default     = ""
 }
 
 variable "go_app_name" {
   description = "name used for the chart name, team filter, etc..."
-  default = "go-app"
+  default     = "go-app"
 }
 
 variable "go_image_repository" {
@@ -93,9 +90,34 @@ variable "go_image_repository" {
 
 variable "node_app_name" {
   description = "name used for the chart name, team filter, etc..."
-  default = "node-app"
+  default     = "node-app"
 }
 
 variable "node_image_repository" {
   description = "Location of the node image in the the image Container Registry."
+}
+
+variable "logging_service_key" {
+  default = ""
+}
+
+variable "activity_tracker_service_key" {
+  default = ""
+}
+
+variable "team_cluster_access_scope" {
+  default = "host:containers-kubernetes"
+}
+
+variable "team_cluster_name" {
+  default = "Team Cluster"
+}
+
+variable "activity_tracker_instance_name" {
+  description = "Name of your Activity Tracker instance in IBM Cloud."
+  default     = "activity-tracker"
+}
+
+variable "team_cluster_members" {
+  type = list(any)
 }

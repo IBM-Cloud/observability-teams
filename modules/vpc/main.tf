@@ -41,18 +41,17 @@ resource "ibm_container_vpc_cluster" "cluster" {
   flavor            = var.flavor
   worker_count      = var.worker_count
   resource_group_id = data.ibm_resource_group.group.id
-  kube_version      = var.kube_version
 
   zones {
     subnet_id = ibm_is_subnet.sub[0].id
     name      = ibm_is_subnet.sub[0].zone
   }
-  zones {
-    subnet_id = ibm_is_subnet.sub[1].id
-    name      = ibm_is_subnet.sub[1].zone
-  }
-  zones {
-    subnet_id = ibm_is_subnet.sub[2].id
-    name      = ibm_is_subnet.sub[2].zone
-  }
+  # zones {
+  #   subnet_id = ibm_is_subnet.sub[1].id
+  #   name      = ibm_is_subnet.sub[1].zone
+  # }
+  # zones {
+  #   subnet_id = ibm_is_subnet.sub[2].id
+  #   name      = ibm_is_subnet.sub[2].zone
+  # }
 }

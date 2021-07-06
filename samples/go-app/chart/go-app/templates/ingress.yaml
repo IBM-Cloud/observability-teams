@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Values.ingress.name }}
@@ -8,9 +8,12 @@ spec:
     http:
       paths:
       - path: /
+        pathType: Prefix
         backend:
-          serviceName: "go-app-application-service"
-          servicePort: {{ .Values.service.servicePort}}
+          service:
+            name: "go-app-application-service"
+            port: 
+              number: {{ .Values.service.servicePort}}
   tls:
   - hosts:
     - {{ .Values.ingress.tls.hosts }}
