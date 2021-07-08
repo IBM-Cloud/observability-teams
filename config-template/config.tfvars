@@ -6,7 +6,7 @@ region = "us-south"
 
 resources_prefix = "<used_to_prefix_resources>"
 
-cluster_id = "<your_kubernetes_cluster_id"
+cluster_id = "<your_kubernetes_cluster_id>"
 
 go_image_repository = "<location_of_go_app_container_image>"
 
