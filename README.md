@@ -52,9 +52,13 @@ Determine which [region](https://cloud.ibm.com/docs/monitoring?topic=monitoring-
 - Activity Tracker is a service that allows only one instance per IBM Cloud region, this template does not create an Activity Tracker instance for you, it requires instead that you provide the name of an existing Activity Tracker instance.  If you don't have one, follow these steps to create one: https://cloud.ibm.com/docs/activity-tracker?topic=activity-tracker-provision
 
 - Follow the steps outlined in the [Kubernetes Service - Creating clusters](https://cloud.ibm.com/docs/containers?topic=containers-clusters) topic to create a Kubernetes cluster. You should create a cluster in a VPC, as this template only supports VPC based clusters. Once the instance is created, **save** the cluster ID for quick reference and proceed to the steps described below. To obtain the cluster ID
-    > Note: If you are using an existing cluster in which you have already deployed the monitoring agent, you must [import the configuration of the agent deployment into your Terraform state](#importing-an-existing-monitoring-agent-deployment-into-the-terraform-state), however please note that when you run a Terraform destroy the agent will be removed from the cluster.
+    > Note 1: If you are using an existing cluster in which you have already deployed the monitoring agent, you must [import the configuration of the agent deployment into your Terraform state](#importing-an-existing-monitoring-agent-deployment-into-the-terraform-state), however please note that when you run a Terraform destroy the agent will be removed from the cluster.
 
-    > Note: To obtain the cluster ID either use the CLI: `ibmcloud ks clusters` or the **[Kubernetes console](https://cloud.ibm.com/kubernetes/clusters) > <cluster_name> > Overview** page.
+    > Note 2: To obtain the cluster ID either use the CLI: `ibmcloud ks clusters` or the **[Kubernetes console](https://cloud.ibm.com/kubernetes/clusters) > <cluster_name> > Overview** page.
+
+    > Note 3: If using an existing cluster, ensure the VPC subnets have a Public Gateway attached as this is required to install the Logging and Monitoring agents.
+
+    > Note 4: If you do not already have a VPC Kubernetes cluster, you can also use the module found under modules/vpc to create a VPC and cluster. Follow the steps found in the modules/vpc/README.md.
 
 -  If you are running on a Windows operating system [install Git](https://git-scm.com/), this template includes a shell script written in Bash and Git when installed on Windows will also include Git Bash that you can use to run the script.
 
