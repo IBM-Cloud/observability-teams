@@ -38,7 +38,7 @@ This repo has the following folder structure:
 
 You must have a Pay-as-You-Go account in IBM Cloud&trade; to follow the steps in this repository to create resources. Since the costs for these resources will vary, use the [Pricing Calculator](https://cloud.ibm.com/estimator/review) to generate a cost estimate based on your projected usage.
 
-Some of the services listed above offer a limited free tier, i.e. IBM Cloud Monitoring, IBM Cloud Log Analysis, IBM Cloud Activity Trackler and IBM Cloud Kubernetes Service which you can use for testing and will work perfectly for our example application. Please note the implication of using the free services as some will be deleted automatically after 30 days.
+Some of the services listed above offer a limited free tier, i.e. IBM Cloud Monitoring, IBM Cloud Log Analysis, and IBM Cloud Activity Trackler which you can use for testing and will work perfectly for our example application. Please note the implication of using the free services as some will be deleted automatically after 30 days.
 
 If you deploy paid services, make sure to delete them when they are no longer required in order to not incur charges in your account.
 
@@ -51,7 +51,7 @@ Determine which [region](https://cloud.ibm.com/docs/monitoring?topic=monitoring-
 
 - Activity Tracker is a service that allows only one instance per IBM Cloud region, this template does not create an Activity Tracker instance for you, it requires instead that you provide the name of an existing Activity Tracker instance.  If you don't have one, follow these steps to create one: https://cloud.ibm.com/docs/activity-tracker?topic=activity-tracker-provision
 
-- Follow the steps outlined in the [Kubernetes Service - Creating clusters](https://cloud.ibm.com/docs/containers?topic=containers-clusters) topic to create a Kubernetes cluster. You may create a Free cluster if you only intend on testing with the code in this repository. Once the instance is created, **save** the cluster ID for quick reference and proceed to the steps described below. To obtain the cluster ID
+- Follow the steps outlined in the [Kubernetes Service - Creating clusters](https://cloud.ibm.com/docs/containers?topic=containers-clusters) topic to create a Kubernetes cluster. You should create a cluster in a VPC, as this template only supports VPC based clusters. Once the instance is created, **save** the cluster ID for quick reference and proceed to the steps described below. To obtain the cluster ID
     > Note: If you are using an existing cluster in which you have already deployed the monitoring agent, you must [import the configuration of the agent deployment into your Terraform state](#importing-an-existing-monitoring-agent-deployment-into-the-terraform-state), however please note that when you run a Terraform destroy the agent will be removed from the cluster.
 
     > Note: To obtain the cluster ID either use the CLI: `ibmcloud ks clusters` or the **[Kubernetes console](https://cloud.ibm.com/kubernetes/clusters) > <cluster_name> > Overview** page.
@@ -71,7 +71,7 @@ Determine which [region](https://cloud.ibm.com/docs/monitoring?topic=monitoring-
 
 ## Invite users to your account
 
-This template will configure monitoringg Teams integrated with IAM, as the owner of the instance, you will have full visibility into all of the teams that you create, i.e. you can switch to them and see what other users would see if they were added to those teams.  However, in order to get a more immersive experience, you need to have at minimum two additional users invited to the IBM Cloud account in which you will be creating these resources, follow the steps outlined below to invite users to your account:
+This template will configure monitoring Teams integrated with IAM, as the owner of the instance, you will have full visibility into all of the teams that you create, i.e. you can switch to them and see what other users would see if they were added to those teams.  However, in order to get a more immersive experience, you need to have at minimum two additional users invited to the IBM Cloud account in which you will be creating these resources, follow the steps outlined below to invite users to your account:
 
 1. Go to [Identity & Access > Users](https://cloud.ibm.com/iam/users) in the IBM Cloud console.
 2. Click the **Invite Users** button.
@@ -134,7 +134,7 @@ Build and push the Docker image to the IBM Cloud container registry.
 
 ### Deploy the application
 
-1. From a terminal window, change to the `monitoring-teams` directory.
+1. From a terminal window, change to the repository root directory.
 2. Enable tracing (optional):
     ```sh
     export TF_LOG=TRACE
