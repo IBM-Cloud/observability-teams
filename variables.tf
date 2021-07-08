@@ -16,6 +16,16 @@ variable "resource_group" {
   default     = "default"
 }
 
+variable "activity_tracker_resource_group" {
+  description = "The resource group for your existing activity tracker instance if not the same as all resources."
+  default     = ""
+}
+
+variable "cluster_resource_group" {
+  description = "The resource group for your Kubernetes cluster if not the same as all resources."
+  default     = ""
+}
+
 variable "monitoring_plan" {
   description = "Plan for your Monitoring instance in IBM Cloud."
   default     = "graduated-tier"

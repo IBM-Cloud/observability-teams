@@ -246,10 +246,14 @@ resource "null_resource" "logging_create_group_2" {
   ]
 }
 
+data "ibm_resource_group" "activity_tracker_resource_group" {
+  name = var.activity_tracker_resource_group != "" ?  var.activity_tracker_resource_group : var.resource_group
+}
+
 data "ibm_resource_instance" "activity_tracker" {
   name              = var.activity_tracker_instance_name
   location          = var.region
-  resource_group_id = data.ibm_resource_group.group.id
+  resource_group_id = data.ibm_resource_group.activity_tracker_resource_group.id
   service           = "logdnaat"
 }
 

@@ -2,6 +2,10 @@ ibmcloud_api_key = "<your_ibm_cloud_api_key>"
 
 resource_group = "default"
 
+activity_tracker_resource_group = ""
+
+cluster_resource_group = ""
+
 region = "us-south"
 
 resources_prefix = "<used_to_prefix_resources>"

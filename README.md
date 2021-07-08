@@ -153,6 +153,10 @@ Build and push the Docker image to the IBM Cloud container registry.
 
     resource_group = "<your_resource_group>"
 
+    activity_tracker_resource_group = "<resource_group_for_existing_activity_tracker_instance>"
+
+    cluster_resource_group = "<resource_group_for_kubernetes_cluster>"
+
     region = "<your_region>"
 
     resources_prefix = "<used_to_prefix_resources>"
@@ -175,7 +179,9 @@ Build and push the Docker image to the IBM Cloud container registry.
 
     ```
 
-> Note: By default the template expects the Kubernetes cluster to have been created in a VPC Infrastructure.
+> Note: The template expects the Kubernetes cluster to have been created in a VPC Infrastructure.
+
+> Note: Both `activity_tracker_resource_group` and `cluster_resource_group` are empty values which will cause the template to use the value supplied for `resource_group`, if you require it specifiy a different value for each.  
 
 6. Execute terraform plan by specifying the location of variable files, state and plan file:
     ```sh
